@@ -61,6 +61,7 @@ module RGhost::Config
   GS={
     :mode => :gsparams,
     :raise_on_error => true,
+    :raise_on_warning => true,
     :plugin => nil,
     :path => nil,
     :tmpdir => ENV["TMP"] || ENV["TMPDIR"] || ENV["TEMPDIR"] || ENV["TEMP"] || "/tmp",
@@ -123,9 +124,9 @@ module RGhost::Config
     doc = RGhost::Document.new :paper => [20,10], :margin_left => 2.3, :margin_bottom => 2.3
 
     doc.virtual_pages do
-      7.times do 
+      7.times do
         new_page :width => 2, :margin_left => 1
-      end  
+      end
     end
 
     RGhost::RubyToPs::UTF8_ENCODINGS.each do |k,v|

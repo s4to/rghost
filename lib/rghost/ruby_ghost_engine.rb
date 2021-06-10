@@ -14,6 +14,7 @@ class RGhost::Engine
     @error=false
     @output=nil
     @delete_input=true
+    @warnings=[]
 
   end
 
@@ -87,6 +88,10 @@ class RGhost::Engine
       @errors=File.open(file_err).readlines if File.exists?(file_err)
       raise RGhost::RenderException.new(@errors.join(" ")) if RGhost::Config::GS[:raise_on_error]
     else
+      if RGhost::Config::GS[:raise_on_warning] && File.exists?(file_err)
+        @warnings=File.open(file_err).readlines
+        raise RGhost::RenderException.new(@warnings.join(" ")) if !@warnings.empty?
+      end
       if multipage
       	file_out.gsub!(/_%04d/,"_*")
         @output=Dir.glob(file_out).map { |f| f }
